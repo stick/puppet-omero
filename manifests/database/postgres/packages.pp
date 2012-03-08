@@ -19,7 +19,8 @@ class omero::database::postgres::packages {
     /CentOS|RedHat/: {
 
       # remove the '.' from the version
-      $package_version = regsubst($version, '^(\d+)\.(\d+)', '\1\2')
+      $version = $omero::database::postgres::version
+      $package_version = regsubst($omero::database::postgres::version, '^(\d+)\.(\d+)', '\1\2')
 
       # release is a guess
       $release = $operatingsystem ? {
@@ -57,13 +58,7 @@ class omero::database::postgres::packages {
           ;
       }
     }
-    'Darwin': {
-    }
-    'Ubuntu': {
-    }
-    'Debian': {
-    }
-    default {
+    default: {
       err "operating system ${operatingsystem} not support"
     }
   }

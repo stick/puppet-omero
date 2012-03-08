@@ -1,4 +1,4 @@
-define omero::database::postgres::user (
+define omero::database::postgres::owner (
   $ensure  = 'present',
   $owner   = $name,
   $pg_user,

@@ -21,10 +21,7 @@ class omero::database::postgres (
 ) {
 
   # install classes
-  class { 'omero::database::postgres::packages':
-    version => $version,
-    ensure  => 'present',
-  }
+  class { 'omero::database::postgres::packages': }
 
   $pg_service_name = $service_name ? {
     ''      => "postgresql-${version}",
@@ -43,7 +40,7 @@ class omero::database::postgres (
   # this may only work on rhel/centos (depends on initscript)
   exec {
     'initdb':
-      command => "service postgresql-${version} initdb"
+      command => "service postgresql-${version} initdb",
       path    => [ '/sbin', '/usr/sbin', '/bin', '/usr/bin', "${pg_bindir}" ],
       creates => "${pg_vardir}/data/PG_VERSION",
       require => Class['omero::database::postgres::packages'],
@@ -70,6 +67,8 @@ class omero::database::postgres (
   # create db and db_owner
   omero::database::postgres::db { $omero_db:
     owner   => $omero_db_owner,
+    pg_user => $pg_user,
+    version => $version,
     require => Class['omero::database::postgres::packages'],
   }
 

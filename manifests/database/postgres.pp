@@ -15,8 +15,10 @@
 # Sample Usage:
 #
 class omero::database::postgres (
-  $version = '9.1',
-  $pg_user = 'postgres',
+  $version = hiera('postgres_version', '9.1'),
+  $pg_user = hiera('postgres_user', 'postgres'),
+  $owner = hiera('omero_db_owner', 'omero'),
+  $database = hiera('omero_database', 'omero'),
   $service_name = ''
 ) {
 
@@ -40,10 +42,11 @@ class omero::database::postgres (
   # this may only work on rhel/centos (depends on initscript)
   exec {
     'initdb':
-      command => "service postgresql-${version} initdb",
-      path    => [ '/sbin', '/usr/sbin', '/bin', '/usr/bin', "${pg_bindir}" ],
-      creates => "${pg_vardir}/data/PG_VERSION",
-      require => Class['omero::database::postgres::packages'],
+      command     => "service postgresql-${version} initdb",
+      path        => [ '/sbin', '/usr/sbin', '/bin', '/usr/bin', "${pg_bindir}" ],
+      creates     => "${pg_vardir}/data/PG_VERSION",
+      environment => [ 'LANG=en_US.UTF-8' ],
+      require     => Class['omero::database::postgres::packages'],
       ;
   }
 
@@ -65,8 +68,8 @@ class omero::database::postgres (
   }
 
   # create db and db_owner
-  omero::database::postgres::db { $omero_db:
-    owner   => $omero_db_owner,
+  omero::database::postgres::db { $database:
+    owner   => $owner,
     pg_user => $pg_user,
     version => $version,
     require => Class['omero::database::postgres::packages'],

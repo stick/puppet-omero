@@ -13,10 +13,11 @@ define omero::database::postgres::owner (
   if $ensure == 'present' {
 
     exec { "createuser $owner":
-      command => "createuser --no-superuser --no-createdb --no-createrole ${owner}",
-      path    => [ '/usr/bin', "${pg_dir}/bin" ],
-      user    => $pg_user,
-      unless  => $userexists,
+      command         => "createuser --no-superuser --no-createdb --no-createrole ${owner}",
+      path            => [ '/bin', '/usr/bin', "${pg_dir}/bin" ],
+      user            => $pg_user,
+      unless          => $userexists,
+      logoutput       => 'true',
       ##FIXME require => Class["postgresql::server"],
     }
 

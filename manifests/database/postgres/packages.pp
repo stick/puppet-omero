@@ -1,18 +1,3 @@
-# Class: omero::database::postgres::packages
-#
-# This class does stuff that you describe here
-#
-# Parameters:
-#   $parameter:
-#       this global variable is used to do things
-#
-# Actions:
-#   Actions should be described here
-#
-# Requires:
-#   - Package["foopackage"]
-#
-# Sample Usage:
 #
 class omero::database::postgres::packages {
   case $operatingsystem {
@@ -22,38 +7,37 @@ class omero::database::postgres::packages {
       $version = $omero::database::postgres::version
       $package_version = regsubst($omero::database::postgres::version, '^(\d+)\.(\d+)', '\1\2')
 
-      # release is a guess
-      $release = $operatingsystem ? {
-        'CentOS' => '4',
-        'RedHat' => '5',
+      case $operatingsystem {
+        'CentOS': {
+          $release = '4'
+          $lc_os = 'centos'
+          $release_pkg_name = "pgdg-${lc_os}${package_version}"
+        }
+        'RedHat': {
+          $release = '5'
+          $lc_os = 'redhat'
+        }
       }
 
+      # pgdg-centos91-9.1-4.noarch.rpm
       # get the repo release rpm
-      $pg_release_rpm = $operatingsystem ? {
-        'CentOS' => "http://yum.postgresql.org/${version}/redhat/rhel-${operatingsystemrelease}-${architecture}/pgdg-centos${package_version}-${version}-${release}.noarch.rpm",
-        'RedHat' => "http://yum.postgresql.org/${version}/redhat/rhel-${operatingsystemrelease}-${architecture}/pgdg-redhat${package_version}-${version}-${release}.noarch.rpm",
-        default  => 'os-not-supported'
-      }
+      $pg_release_rpm = "http://yum.postgresql.org/${version}/redhat/rhel-${operatingsystemrelease}-${architecture}/${release_pkg_name}-${version}-${release}.noarch.rpm"
     
       package {
         'postgres-repo-release':
-          name     => $pg_release_rpm,
-          provider => 'rpm',
-          ensure   => $ensure,
+          name => $release_pkg_name,
+          source => $pg_release_rpm,
           ;
         'postgres':
           name    => "postgresql${package_version}",
-          ensure  => $ensure,
           require => Package['postgres-repo-release'],
           ;
         'postgres-server':
           name    => "postgresql${package_version}-server",
-          ensure  => $ensure,
           require => Package['postgres'],
           ;
         'postgresql-devel':
           name   => "postgresql${package_version}-devel",
-          ensure => $ensure,
           require => Package['postgres'],
           ;
       }

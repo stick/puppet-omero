@@ -8,7 +8,7 @@ define omero::database::postgres::db (
 ) {
 
   $pg_dir = "/usr/pgsql-${version}"
-  $dbexists = 'commandtoseeifdbexists'
+  $dbexists = "psql -l ${dbname}"
 
   omero::database::postgres::owner { $owner:
     ensure  => $ensure,
@@ -23,7 +23,7 @@ define omero::database::postgres::db (
       path    => [ '/usr/bin', "${pg_dir}/bin" ],
       user    => $pg_user,
       unless  => $dbexists,
-      require => Omero::Database::Postgres::User[$owner],
+      require => Omero::Database::Postgres::Owner[$owner],
     }
 
 
@@ -33,7 +33,7 @@ define omero::database::postgres::db (
       command => "dropdb $name",
       user => $pg_user,
       onlyif => $dbexists,
-      before => Omero::Database::Postgres::User[$owner],
+      before => Omero::Database::Postgres::Owner[$owner],
     }
   }
 }

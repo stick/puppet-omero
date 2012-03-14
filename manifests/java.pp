@@ -1,5 +1,5 @@
 class omero::java (
-  $version = hiera('java_version)',
+  $version = hiera('java_version'),
   $repo_url = hiera('java_repo_url'),
 ) {
   $java_packages = [
@@ -11,7 +11,7 @@ class omero::java (
   case $operatingsystem {
     'RedHat', 'CentOS': {
       yumrepo { 'omero-java':
-        baseurl  => $repo_url
+        baseurl  => $repo_url,
         descr    => 'OMERO Java Packages',
         gpgcheck => '0',
       }

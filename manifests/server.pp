@@ -2,8 +2,8 @@ class omero::server (
   $omero_owner = hiera('omero_owner'),
   $omero_group = hiera('omero_group'),
   $omero_home = hiera('omero_home'),
-  $omero_home_link = hiera('omero_home_link'),
-  $omero_db_user = hiera('db_user'),
+  $omero_home_link = hiera('omero_home_link', ''),
+  $omero_db_user = hiera('omero_db_user'),
   $db_version = hiera('db_version'),
   $db_patch = hiera('db_patch'),
   $omero_root_pw = hiera('root_password'),
@@ -41,10 +41,13 @@ class omero::server (
   }
 
   if $dbtype == 'postgres' {
+    ## FIXME
+    $a = "omero::database::${dbtype}::bindir"
+    notice $a
     exec { 'create-schema':
       command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${omero_home}/.db.by_puppet",
       user    => $omoer_owner,
-      path    => [ '/bin', '/usr/bin', "${omero::database::${dbtype}::bindir}", "${omero_home}/bin" ],
+      # path    => [ '/bin', '/usr/bin', "${omero::database::${dbtype}::bindir}", "${omero_home}/bin" ],
       creates => "${omero_home}/.db.by.puppet",
     }
   }

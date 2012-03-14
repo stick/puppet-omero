@@ -19,7 +19,7 @@ class omero::database::postgres (
   $pg_user = hiera('postgres_user'),
   $owner = hiera('omero_db_user'),
   $database = hiera('omero_dbname'),
-  $service_name = hiera('postgres_custom_service_name'),
+  $service_name = hiera('postgres_custom_service_name', ''),
 ) {
 
   # install classes

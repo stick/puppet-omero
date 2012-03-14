@@ -14,6 +14,7 @@ class omero::data {
   # directories
   $omero_home = '/opt/omero'
   $ice_home = '/usr/share/Ice-3.3.1'
+  $omero_home_link = ''
 
   # software decisions
   $webtype = 'apache'
@@ -30,7 +31,7 @@ class omero::data {
   $postgres_custom_service_name = ''
   $db_version = 'OMERO4.3'
   $db_patch = '0'
-  $root_password = ''
+  $root_password = 'omero'
 
   # data repo settings
   $repo_dir = '/OMERO'

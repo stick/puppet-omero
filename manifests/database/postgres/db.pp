@@ -1,5 +1,6 @@
 define omero::database::postgres::db (
   $owner,
+  $owner_pass,
   $dbname = $name,
   $ensure = 'present',
   $pg_user,
@@ -11,9 +12,10 @@ define omero::database::postgres::db (
   $dbexists = "psql -l ${dbname}"
 
   omero::database::postgres::owner { $owner:
-    ensure  => $ensure,
-    version => $version,
-    pg_user => $pg_user,
+    ensure   => $ensure,
+    password => $owner_pass,
+    version  => $version,
+    pg_user  => $pg_user,
   }
 
   if $ensure == 'present' {

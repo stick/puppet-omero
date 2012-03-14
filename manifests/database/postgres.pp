@@ -18,6 +18,7 @@ class omero::database::postgres (
   $version = hiera('postgres_version'),
   $pg_user = hiera('postgres_user'),
   $owner = hiera('omero_db_user'),
+  $owner_pass = hiera('omero_db_pass'),
   $database = hiera('omero_dbname'),
   $service_name = hiera('postgres_custom_service_name', ''),
 ) {
@@ -69,10 +70,11 @@ class omero::database::postgres (
 
   # create db and db_owner
   omero::database::postgres::db { $database:
-    owner   => $owner,
-    pg_user => $pg_user,
-    version => $version,
-    require => Class['omero::database::postgres::packages'],
+    owner      => $owner,
+    owner_pass => $owner_pass,
+    pg_user    => $pg_user,
+    version    => $version,
+    require    => Class['omero::database::postgres::packages'],
   }
 
 }

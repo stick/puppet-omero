@@ -42,12 +42,13 @@ class omero::server (
   }
 
   if $dbtype == 'postgres' {
+    $schema_created_file = "${omero_home}/.db.by_puppet"
     exec { 'create-schema':
-      command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${omero_home}/.db.by_puppet",
-      user    => $omoer_owner,
+      command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${schema_created_file}",
+      user    => $omero_owner,
       path    => [ '/bin', '/usr/bin', $omero::database::postgres::bindir, "${omero_home}/bin" ],
-      creates => "${omero_home}/.db.by.puppet",
-      require => Class['omero::database'],
+      creates => $schema_created_file,
+      require => Class['omero::database::postgres'],
     }
   }
 

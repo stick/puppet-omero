@@ -31,10 +31,11 @@ class omero::data {
   $postgres_version = '9.1'
   $postgres_user = 'postgres'
   $omero_db_user = 'omero'
+  $omero_db_pass = 'omero'
   $omero_dbname = 'omero'
   $db_version = 'OMERO4.3'
   $db_patch = '0'
-  $root_password = 'omero'
+  $root_password = 'omeroroot'
 
   # data repo settings
   $omero_data_repo_dir = '/OMERO'

@@ -26,6 +26,7 @@ class omero::data {
   $java_version = '1.6.0'
   $java_repo_url = 'file:///tmp/omero-java'
   $zeroc_ice_repo_url = 'http://www.glencoesoftware.com/ice-rpms/6/'
+  $apache_config_file = '/etc/httpd/conf.d/omero-web.conf'
 
   # database settings
   $postgres_version = '9.1'

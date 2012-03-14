@@ -15,11 +15,11 @@
 # Sample Usage:
 #
 class omero::database::postgres (
-  $version = hiera('postgres_version', '9.1'),
-  $pg_user = hiera('postgres_user', 'postgres'),
-  $owner = hiera('omero_db_owner', 'omero'),
-  $database = hiera('omero_database', 'omero'),
-  $service_name = ''
+  $version = hiera('postgres_version'),
+  $pg_user = hiera('postgres_user'),
+  $owner = hiera('omero_db_user'),
+  $database = hiera('omero_dbname'),
+  $service_name = hiera('postgres_custom_service_name'),
 ) {
 
   # install classes

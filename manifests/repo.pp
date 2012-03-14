@@ -1,9 +1,9 @@
 #
 class omero::repo (
-  $repo_dir = hiera('repo_dir', '/OMERO'),
-  $repo_owner = hiera('repo_owner', 'omero'),
-  $repo_group = hiera('repo_group', 'omero'),
-  $mode = '0775'
+  $repo_dir = hiera('repo_dir'),
+  $repo_owner = hiera('repo_owner'),
+  $repo_group = hiera('repo_group'),
+  $mode = hiera('repo_perms'),
 ) {
   file { $repo_dir:
     ensure => 'directory',

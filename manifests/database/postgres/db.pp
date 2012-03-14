@@ -25,15 +25,19 @@ define omero::database::postgres::db (
         user    => $pg_user,
         unless  => $dbexists,
         require => Omero::Database::Postgres::Owner[$owner],
-        notify  => Exec["createlang ${name}"],
         ;
-      # this may be redundant in psql 9
-      "createlang ${name}":
-        command     => "createlang plpgsql ${dbname}",
-        path        => [ '/usr/bin', "${pg_dir}/bin" ],
-        user        => $pg_user,
-        refreshonly => 'true',
-        ;
+    }
+    
+    if $create_lang {
+      exec {
+        # this may be redundant in psql 9
+        "createlang ${name}":
+          command     => "createlang plpgsql ${dbname}",
+          path        => [ '/usr/bin', "${pg_dir}/bin" ],
+          user        => $pg_user,
+          refreshonly => 'true',
+          ;
+      }
     }
 
   } elsif $ensure == 'absent' {

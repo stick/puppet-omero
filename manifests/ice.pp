@@ -1,5 +1,7 @@
 #
-class omero::ice {
+class omero::ice (
+  $repo_url = hiera('zeroc_ice_repo_url'),
+) {
   $ice_packages = [
     'ice',
     'ice-python',
@@ -12,7 +14,7 @@ class omero::ice {
   ]
 
   yumrepo { 'zeroc-ice':
-    baseurl  => hiera('zeroc-ice-repo-url', "http://www.glencoesoftware.com/ice-rpms/6/"),
+    baseurl  => $repo_url,
     descr    => 'ZeroC Ice Packages',
     gpgcheck => '0',
   }

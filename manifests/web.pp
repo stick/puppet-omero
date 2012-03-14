@@ -1,11 +1,10 @@
 #
-class omero::web {
+class omero::web ($webtype = hiera('webtype')) {
   package {
     'matplotlib':
       name => 'python-matplotlib',
       ;
   }
 
-  $webtype = hiera('webtype')
   class { "omero::web::${webtype}": }
 }

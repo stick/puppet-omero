@@ -19,4 +19,9 @@ class omero::data {
   $ice_home = '/usr/share/Ice-3.3.1'
   $webtype = 'apache'
   $dbtype = 'postgres'
+  $p_omero_user = hiera('omero_user')
+  if $p_omero_user {
+    $omero_db_owner = $p_omero_user
+    $repo_owner = $p_omero_user
+  }
 }

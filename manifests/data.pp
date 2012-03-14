@@ -17,4 +17,6 @@
 class omero::data {
   $omero_home = '/opt/omero'
   $ice_home = '/usr/share/Ice-3.3.1'
+  $webtype = 'apache'
+  $dbtype = 'postgres'
 }

@@ -6,5 +6,6 @@ class omero::web {
       ;
   }
 
-  class { "omero::web::${omero::settings::webtype}": }
+  $webtype = hiera('webtype')
+  class { "omero::web::${webtype}": }
 }

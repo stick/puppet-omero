@@ -18,14 +18,23 @@ define omero::database::postgres::db (
 
   if $ensure == 'present' {
 
-    exec { "createdb $name":
-      command => "createdb -T ${template_db} -O ${owner} ${dbname}",
-      path    => [ '/usr/bin', "${pg_dir}/bin" ],
-      user    => $pg_user,
-      unless  => $dbexists,
-      require => Omero::Database::Postgres::Owner[$owner],
+    exec {
+      "createdb ${name}":
+        command => "createdb -T ${template_db} -O ${owner} ${dbname}",
+        path    => [ '/usr/bin', "${pg_dir}/bin" ],
+        user    => $pg_user,
+        unless  => $dbexists,
+        require => Omero::Database::Postgres::Owner[$owner],
+        notify  => Exec["createlang ${name}"],
+        ;
+      # this may be redundant in psql 9
+      "createlang ${name}":
+        command     => "createlang plpgsql ${dbname}",
+        path        => [ '/usr/bin', "${pg_dir}/bin" ],
+        user        => $pg_user,
+        refreshonly => 'true',
+        ;
     }
-
 
   } elsif $ensure == 'absent' {
 

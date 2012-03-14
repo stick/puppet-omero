@@ -1,4 +1,5 @@
 #
-class omero::database inherits omero::settings {
-  class { "omero::database::${omero::settings::dbtype}": }
+class omero::database inherits omero {
+  $dbtype = hiera('dbtype')
+  class { "omero::database::${dbtype}": }
 }

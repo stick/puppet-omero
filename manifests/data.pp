@@ -2,7 +2,9 @@
 # hiera looks at this class to find values
 # should never be directly included
 # anything here needs a hiera call to be used
-# usually done in omero::settings
+# these settings should be overridden by another hiera backend
+# do not edit without knowing what you are doing
+# these are references
 #
 class omero::data {
   # general fs settings
@@ -35,7 +37,5 @@ class omero::data {
   $repo_owner = 'omero'
   $repo_group = 'omero'
   $repo_perms = '0775'
-
-
 
 }

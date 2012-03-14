@@ -6,5 +6,7 @@ class omero::server inherits omero {
       ;
     'omero::web':
       ;
+    'omero::repo':
+      ;
   }
 }

@@ -33,4 +33,7 @@ class omero::packages {
   # java setup and install
   class { 'omero::java': }
 
+  # ice
+  class { 'omero::ice': }
+
 }

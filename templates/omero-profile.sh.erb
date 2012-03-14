@@ -1,0 +1,11 @@
+<% unless scope.function_hiera("java_home", '').empty? %>
+export JAVA_HOME=<%= scope.function_hiera("java_home") %>
+<% end %>
+export JRE_HOME=<%= scope.function_hiera("jre_home") %>
+export ICE_HOME=<%= scope.function_hiera("ice_home") %>
+export POSTGRES_HOME=<%= scope.function_hiera("postgres_home") %>
+export OMERO_HOME=<%= scope.function_hiera("omero_home") %>
+export PYTHONPATH=<%= scope.function_hiera("python_path") %>:$PYTHONPATH
+export DYLD_LIBRARY_PATH=<%= scope.function_hiera("dyld_library_path") %>:$DYLD_LIBRARY_PATH
+export LD_LIBRARY_PATH=<%= scope.function_hiera("ld_library_path") %>:$LD_LIBRARY_PATH
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin:$ICE_HOME/bin:$POSTGRES_HOME/bin:$OMERO_HOME/bin

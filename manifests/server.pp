@@ -1,4 +1,4 @@
-class omero::server inherits omero::settings {
+class omero::server inherits omero {
   class {
     'omero::packages':
       ;

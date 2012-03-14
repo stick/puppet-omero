@@ -14,13 +14,17 @@ class omero::data {
   # directories
   $omero_home = '/opt/omero'
   $ice_home = '/usr/share/Ice-3.3.1'
+
+  # these don't have defaults but are listed for reference
   $omero_home_link = ''
+  $omero_data_repo_link = ''
+  $postgres_custom_service_name = ''
 
   # software decisions
   $webtype = 'apache'
   $dbtype = 'postgres'
   $java_version = '1.6.0'
-  $java_repo_url = 'file:///tmp/java-rpms'
+  $java_repo_url = 'file:///tmp/omero-java'
   $zeroc_ice_repo_url = 'http://www.glencoesoftware.com/ice-rpms/6/'
 
   # database settings
@@ -28,15 +32,14 @@ class omero::data {
   $postgres_user = 'postgres'
   $omero_db_user = 'omero'
   $omero_dbname = 'omero'
-  $postgres_custom_service_name = ''
   $db_version = 'OMERO4.3'
   $db_patch = '0'
   $root_password = 'omero'
 
   # data repo settings
-  $repo_dir = '/OMERO'
-  $repo_owner = 'omero'
-  $repo_group = 'omero'
-  $repo_perms = '0775'
+  $omero_data_repo_dir = '/OMERO'
+  $omero_data_repo_owner = 'omero'
+  $omero_data_repo_group = 'omero'
+  $omero_data_repo_perms = '0775'
 
 }

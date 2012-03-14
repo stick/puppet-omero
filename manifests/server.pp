@@ -31,6 +31,7 @@ class omero::server (
     group  => $omero_group,
   }
 
+  # if configs are non-standard we need to update omero's xml config to match
   if $omero_db_user != 'omero' {
     omero::config { 'omero.db.user':
       omero_owner => $omero_owner,
@@ -41,14 +42,12 @@ class omero::server (
   }
 
   if $dbtype == 'postgres' {
-    ## FIXME
-    $a = "omero::database::${dbtype}::bindir"
-    notice $a
     exec { 'create-schema':
       command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${omero_home}/.db.by_puppet",
       user    => $omoer_owner,
-      # path    => [ '/bin', '/usr/bin', "${omero::database::${dbtype}::bindir}", "${omero_home}/bin" ],
+      path    => [ '/bin', '/usr/bin', $omero::database::postgres::bindir, "${omero_home}/bin" ],
       creates => "${omero_home}/.db.by.puppet",
+      require => Class['omero::database'],
     }
   }
 

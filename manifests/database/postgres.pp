@@ -30,8 +30,8 @@ class omero::database::postgres (
     default => $service_name
   }
 
-  $pg_vardir = "/var/lib/pgsql/${version}"
-  $pg_bindir = "/usr/pgsql-${version}/bin"
+  $vardir = "/var/lib/pgsql/${version}"
+  $bindir = "/usr/pgsql-${version}/bin"
 
   File { 
     owner   => $pg_user,
@@ -43,8 +43,8 @@ class omero::database::postgres (
   exec {
     'initdb':
       command     => "service postgresql-${version} initdb",
-      path        => [ '/sbin', '/usr/sbin', '/bin', '/usr/bin', "${pg_bindir}" ],
-      creates     => "${pg_vardir}/data/PG_VERSION",
+      path        => [ '/sbin', '/usr/sbin', '/bin', '/usr/bin', "${bindir}" ],
+      creates     => "${vardir}/data/PG_VERSION",
       environment => [ 'LANG=en_US.UTF-8' ],
       require     => Class['omero::database::postgres::packages'],
       ;

@@ -1,5 +1,5 @@
 #
-class omero inherits omero::settings {
+class omero {
   file {
     'omero-profile.sh':
       path    => '/etc/profile.d/omero.sh',

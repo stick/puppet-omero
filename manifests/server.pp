@@ -1,15 +1,20 @@
 class omero::server (
-  $omero_owner = $omero::settings::omero_owner,
-  $omero_group = $omero::settings::omero_group,
-  $omero_home = $omero::settings::omero_home,
-  $omero_home_link = $omero::settings::omero_home_link,
-  $omero_db_user = $omero::settings::db_user,
+  $omero_owner = hiera('omero_owner'),
+  $omero_group = hiera('omero_group'),
+  $omero_home = hiera('omero_home'),
+  $omero_home_link = hiera('omero_home_link'),
+  $omero_db_user = hiera('db_user'),
+  $db_version = hiera('db_version'),
+  $db_patch = hiera('db_patch'),
+  $omero_root_pw = hiera('root_password'),
+  $omero_dbname = hiera('omero_dbname'),
+  $dbtype = hiera('dbtype'),
 ) inherits omero {
 
   class {
     'omero::packages':
       ;
-    'omero::settingsbase':
+    'omero::database':
       ;
     'omero::web':
       ;
@@ -35,19 +40,11 @@ class omero::server (
     }
   }
 
-  $omero_bin = "${omero_home}/bin"
-
-  if $omero::settings::dbtype == 'postgres' {
-    $postgres_bin = "${omero::database::postgres::version}/bin"
-    $db_version = $omero::settings::db_version
-    $db_patch = $omero::settings::db_patch
-    $omero_root_pw = $omero::settings::root_password
-    $omero_dbname = $omoer::settings::dbname
-
+  if $dbtype == 'postgres' {
     exec { 'create-schema':
       command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${omero_home}/.db.by_puppet",
       user    => $omoer_owner,
-      path    => [ '/bin', '/usr/bin', "${postgres_bin}", "${omero_bin}" ],
+      path    => [ '/bin', '/usr/bin', "${omero::database::${dbtype}::bindir}", "${omero_home}/bin" ],
       creates => "${omero_home}/.db.by.puppet",
     }
   }

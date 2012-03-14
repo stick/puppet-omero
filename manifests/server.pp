@@ -33,7 +33,7 @@ class omero::server (
 
   if $omero_db_user != 'omero' {
     omero::config { 'omero.db.user':
-      omero_user => $omero_owner,
+      omero_owner => $omero_owner,
       omero_home => $omero_home,
       mode       => 'set',
       value      => $omero_db_user,

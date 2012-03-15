@@ -19,6 +19,8 @@ class omero::data {
   $omero_home_link = ''
   $omero_data_repo_link = ''
   $postgres_custom_service_name = ''
+  $omero_web_config = ''
+  $omero_web_config_source = ''
 
   # software decisions
   $webtype = 'apache'
@@ -26,8 +28,6 @@ class omero::data {
   $java_version = '1.6.0'
   $java_repo_url = 'file:///tmp/omero-java'
   $zeroc_ice_repo_url = 'http://www.glencoesoftware.com/ice-rpms/6/'
-  $apache_config_file = '/etc/httpd/conf.d/omero-web.conf'
-
   # database settings
   $postgres_version = '9.1'
   $postgres_user = 'postgres'

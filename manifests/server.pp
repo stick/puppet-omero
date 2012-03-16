@@ -8,6 +8,7 @@ class omero::server (
   $db_patch = hiera('db_patch'),
   $omero_root_pw = hiera('root_password'),
   $omero_dbname = hiera('omero_dbname'),
+  $omero_installed = hiera('omero_installed'),
   $dbtype = hiera('dbtype'),
 ) inherits omero {
 
@@ -31,7 +32,7 @@ class omero::server (
     group  => $omero_group,
   }
 
-  if $no_omero {
+  if $omero_installed {
     # if configs are non-standard we need to update omero's xml config to match
     # will need more here -- maybe a better way to do this
     if $omero_db_user != 'omero' {

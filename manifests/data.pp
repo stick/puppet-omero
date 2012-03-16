@@ -53,5 +53,5 @@ class omero::data {
   $omero_data_repo_perms = '0775'
 
   # development only -- if you want to setup the structure for omero without actually having omero installed/setup
-  $no_omero = false
+  $omero_installed = false
 }

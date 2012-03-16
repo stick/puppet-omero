@@ -4,6 +4,7 @@ class omero::web (
   $web_source = hiera('omero_web_config_source', ''),
   $omero_owner = hiera('omero_owner'),
   $omero_home = hiera('omero_home'),
+  $omero_installed = hiera('omero_installed'),
   $webtype = hiera('webtype')
 ) {
   package {
@@ -27,7 +28,7 @@ class omero::web (
     }
   }
 
-  if $no_omero {
+  if $omero_installed {
     omero::web::config { 'omero-web':
       config      => $web_config,
       source      => $web_source,

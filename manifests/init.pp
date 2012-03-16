@@ -19,6 +19,16 @@ class omero (
     }
   }
 
+  if $iptables_enabled {
+    # firewall rules go here
+    $implement_later = 'FIXME'
+  } else {
+    # make sure stock ruleset doesn't bite us
+    service { 'iptables':
+      ensure => 'stopped',
+    }
+  }
+    
   # we need epel, it may be installed b/c of puppet but possible not enabled.
   if defined(Yumrepo['epel']) {
     Yumrepo['epel'] {

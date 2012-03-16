@@ -27,11 +27,13 @@ class omero::web (
     }
   }
 
-  omero::web::config { 'omero-web':
-    config      => $web_config,
-    source      => $web_source,
-    webtype     => $webtype,
-    omero_home  => $omero_home,
-    omero_owner => $omero_owner,
+  if $no_omero {
+    omero::web::config { 'omero-web':
+      config      => $web_config,
+      source      => $web_source,
+      webtype     => $webtype,
+      omero_home  => $omero_home,
+      omero_owner => $omero_owner,
+    }
   }
 }

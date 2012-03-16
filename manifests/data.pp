@@ -7,9 +7,12 @@
 # these are references
 #
 class omero::data {
-  # general fs settings
+  # general os settings
   $omero_owner = 'omero'
   $omero_group = 'omero'
+
+  # create the omero user?
+  $create_omero_user = true
 
   # directories
   $omero_home = '/opt/omero'
@@ -26,8 +29,13 @@ class omero::data {
   $webtype = 'apache'
   $dbtype = 'postgres'
   $java_version = '1.6.0'
-  $java_repo_url = 'file:///tmp/omero-java'
-  $zeroc_ice_repo_url = 'http://www.glencoesoftware.com/ice-rpms/6/'
+
+  $epel_release_rpm = 'http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm'
+  $rpmforge_release_rpm = 'http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm'
+  $nginx_release_rpm = 'http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm'
+  $java_repo_url = "http://sloth.glencoesoftware.com/yum/java-sun-jdk/${operatingsystemrelease}/${architecture}/"
+  $zeroc_ice_repo_url = "http://sloth.glencoesoftware.com/yum/zeroc-ice/${operatingsystemrelease}/${architecture}"
+
   # database settings
   $postgres_version = '9.1'
   $postgres_user = 'postgres'
@@ -44,4 +52,6 @@ class omero::data {
   $omero_data_repo_group = 'omero'
   $omero_data_repo_perms = '0775'
 
+  # development only -- if you want to setup the structure for omero without actually having omero installed/setup
+  $no_omero = false
 }

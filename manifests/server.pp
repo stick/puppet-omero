@@ -31,24 +31,27 @@ class omero::server (
     group  => $omero_group,
   }
 
-  # if configs are non-standard we need to update omero's xml config to match
-  if $omero_db_user != 'omero' {
-    omero::config { 'omero.db.user':
-      omero_owner => $omero_owner,
-      omero_home => $omero_home,
-      mode       => 'set',
-      value      => $omero_db_user,
+  if $no_omero {
+    # if configs are non-standard we need to update omero's xml config to match
+    # will need more here -- maybe a better way to do this
+    if $omero_db_user != 'omero' {
+      omero::config { 'omero.db.user':
+        omero_owner => $omero_owner,
+        omero_home => $omero_home,
+        mode       => 'set',
+        value      => $omero_db_user,
+      }
     }
-  }
 
-  if $dbtype == 'postgres' {
-    $schema_created_file = "${omero_home}/.db.by_puppet"
-    exec { 'create-schema':
-      command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${schema_created_file}",
-      user    => $omero_owner,
-      path    => [ '/bin', '/usr/bin', $omero::database::postgres::bindir, "${omero_home}/bin" ],
-      creates => $schema_created_file,
-      require => Class['omero::database::postgres'],
+    if $dbtype == 'postgres' {
+      $schema_created_file = "${omero_home}/.db.by_puppet"
+      exec { 'create-schema':
+        command => "omero db script ${db_version} ${db_patch} ${omero_root_pw} --file - | psql ${omero_dbname} && touch ${schema_created_file}",
+        user    => $omero_owner,
+        path    => [ '/bin', '/usr/bin', $omero::database::postgres::bindir, "${omero_home}/bin" ],
+        creates => $schema_created_file,
+        require => Class['omero::database::postgres'],
+      }
     }
   }
 

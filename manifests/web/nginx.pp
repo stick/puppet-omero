@@ -1,7 +1,14 @@
 #
 class omero::web::nginx {
-  package { 'nginx':
-    name => 'nginx',
+  package {
+    'nginx':
+      name    => 'nginx',
+      require => Package['nginx-release'],
+      ;
+    'nginx-release':
+      source   => $nginx_release_rpm,
+      provider => 'rpm',
+      ;
   }
 
   service { 'nginx':

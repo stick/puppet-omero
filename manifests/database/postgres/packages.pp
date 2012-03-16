@@ -22,15 +22,17 @@ class omero::database::postgres::packages {
       # pgdg-centos91-9.1-4.noarch.rpm
       # get the repo release rpm
       $pg_release_rpm = "http://yum.postgresql.org/${version}/redhat/rhel-${operatingsystemrelease}-${architecture}/${release_pkg_name}-${version}-${release}.noarch.rpm"
+      notice $pg_release_rpm
     
       package {
-        'postgres-repo-release':
-          name => $release_pkg_name,
-          source => $pg_release_rpm,
+        'postgres-release':
+          name     => $release_pkg_name,
+          source   => $pg_release_rpm,
+          provider => 'rpm',
           ;
         'postgres':
           name    => "postgresql${package_version}",
-          require => Package['postgres-repo-release'],
+          require => Package['postgres-release'],
           ;
         'postgres-server':
           name    => "postgresql${package_version}-server",

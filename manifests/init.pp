@@ -21,7 +21,6 @@ class omero (
 
   # we need epel, it may be installed b/c of puppet but possible not enabled.
   if defined(Yumrepo['epel']) {
-    notice "epel appears to be defined"
     Yumrepo['epel'] {
       enabled => '1',
     }

@@ -2,7 +2,6 @@
 class omero::web::apache (
   $rpmforge_release_rpm = hiera('rpmforge_release_rpm'),
 ) {
-  notice $rpmforge_release_rpm
 
   package {
     'httpd':
